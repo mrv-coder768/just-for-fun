@@ -22,20 +22,21 @@
         height: 90vw;
         max-height: 400px;
         background: white;
-        border-radius: 15px;
-        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        border-radius: 18px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.25);
         position: relative;
         text-align: center;
         padding-top: 30px;
+        overflow: hidden;
     }
 
     h2 {
-        font-size: 1.4rem;
-        margin-bottom: 30px;
+        font-size: 1.5rem;
+        margin-bottom: 35px;
     }
 
     button {
-        padding: 12px 25px;
+        padding: 12px 28px;
         font-size: 1rem;
         border: none;
         border-radius: 25px;
@@ -52,8 +53,9 @@
         color: white;
         position: absolute;
         left: 50%;
-        top: 60%;
+        top: 65%;
         transform: translate(-50%, -50%);
+        touch-action: none;
     }
 
     /* Popup */
@@ -64,19 +66,24 @@
         background: rgba(0,0,0,0.5);
         justify-content: center;
         align-items: center;
+        z-index: 100;
     }
 
     .popup-box {
         background: white;
-        padding: 20px;
-        border-radius: 15px;
+        padding: 22px;
+        border-radius: 18px;
         width: 80%;
         max-width: 300px;
         text-align: center;
     }
 
+    .popup-box p {
+        font-size: 1.1rem;
+    }
+
     .popup-box button {
-        margin-top: 15px;
+        margin-top: 18px;
         background: #4CAF50;
         color: white;
         width: 100%;
@@ -86,8 +93,8 @@
 
 <body>
 
-<div class="container">
-    <h2>Do you like me? ❤️</h2>
+<div class="container" id="container">
+    <h2>Do you like me? </h2>
     <button id="yes" onclick="showPopup()">Yes</button>
     <button id="no">No</button>
 </div>
@@ -100,28 +107,42 @@
 </div>
 
 <script>
-    const noButton = document.getElementById("no");
-    const container = document.querySelector(".container");
+    const noBtn = document.getElementById("no");
+    const container = document.getElementById("container");
 
-    function moveButton() {
-        const maxX = container.clientWidth - noButton.offsetWidth;
-        const maxY = container.clientHeight - noButton.offsetHeight;
+    function vibrate(pattern) {
+        if (navigator.vibrate) {
+            navigator.vibrate(pattern);
+        }
+    }
+
+    function moveButton(e) {
+        e.preventDefault();
+
+        // Short vibration when NO is touched
+        vibrate(120);
+
+        const maxX = container.clientWidth - noBtn.offsetWidth;
+        const maxY = container.clientHeight - noBtn.offsetHeight;
 
         const x = Math.random() * maxX;
         const y = Math.random() * maxY;
 
-        noButton.style.left = x + "px";
-        noButton.style.top = y + "px";
-        noButton.style.transform = "none";
+        noBtn.style.left = x + "px";
+        noBtn.style.top = y + "px";
+        noBtn.style.transform = "none";
     }
 
-    // Desktop hover
-    noButton.addEventListener("mouseenter", moveButton);
+    // Desktop
+    noBtn.addEventListener("mouseover", moveButton);
 
-    // Mobile touch
-    noButton.addEventListener("touchstart", moveButton);
+    // Mobile
+    noBtn.addEventListener("touchstart", moveButton);
+    noBtn.addEventListener("touchmove", moveButton);
 
     function showPopup() {
+        // Happy vibration pattern
+        vibrate([100, 60, 100, 60, 200]);
         document.getElementById("popup").style.display = "flex";
     }
 
