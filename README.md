@@ -94,14 +94,14 @@
 <body>
 
 <div class="container" id="container">
-    <h2>Do you like me? </h2>
+    <h2>Do you like BTS? </h2>
     <button id="yes" onclick="showPopup()">Yes</button>
     <button id="no">No</button>
 </div>
 
 <div class="popup" id="popup">
     <div class="popup-box">
-        <p>Thanks for Accepting 😍</p>
+        <p>Thanks for Accepting truth😍</p>
         <button onclick="closePopup()">OK</button>
     </div>
 </div>
